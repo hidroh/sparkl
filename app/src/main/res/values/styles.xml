@@ -1,12 +1,12 @@
 <resources>
 
     <style name="BaseAppTheme" parent="Theme.AppCompat.Light">
-        <item name="colorPrimary">@color/colorPrimary</item>
-        <item name="colorPrimaryDark">@color/colorPrimaryDark</item>
+        <item name="colorPrimary">@color/white</item>
         <item name="colorAccent">@color/lightBlueA700</item>
     </style>
 
     <style name="AppTheme" parent="BaseAppTheme">
+        <item name="colorPrimaryDark">@color/grey500</item>
     </style>
 
 </resources>
