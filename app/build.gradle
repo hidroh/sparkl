@@ -1,0 +1,71 @@
+apply plugin: 'com.android.application'
+apply plugin: 'jacoco'
+
+android {
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+    defaultConfig {
+        applicationId "io.github.hidroh.sparkl"
+        minSdkVersion 15
+        targetSdkVersion 24
+        versionCode 1
+        versionName "1.0"
+        buildConfigField "String", "FLICKR_API_KEY", "\"3e7cc266ae2b0e0d78e279ce8e361736\""
+    }
+    lintOptions {
+        htmlReport false
+        xmlReport false
+        textReport true
+        warningsAsErrors true
+        abortOnError true
+        explainIssues false
+        absolutePaths false
+        ignore "InvalidPackage" // square/okio#58
+    }
+    testOptions.unitTests.all {
+        testLogging {
+            events 'passed', 'skipped', 'failed', 'standardOut', 'standardError'
+            exceptionFormat 'full'
+        }
+        jacoco {
+            includeNoLocationClasses = true
+        }
+    }
+}
+ext {
+    supportVersion = '24.1.0'
+    picassoVersion = '2.5.2'
+    retrofitVersion = '2.1.0'
+    robolectricVersion = '3.0'
+    assertjVersion = '1.1.1'
+}
+dependencies {
+    compile "com.android.support:appcompat-v7:$supportVersion",
+            "com.android.support:recyclerview-v7:$supportVersion",
+            "com.squareup.picasso:picasso:$picassoVersion",
+            "com.squareup.retrofit2:retrofit:$retrofitVersion",
+            "com.squareup.retrofit2:converter-gson:$retrofitVersion"
+    testCompile "org.robolectric:robolectric:$robolectricVersion",
+            'org.mockito:mockito-core:1.9.5+',
+            'junit:junit:4.12'
+    testCompile("com.squareup.assertj:assertj-android:$assertjVersion") {
+        exclude group: 'com.android.support', module: 'support-annotations'
+    }
+}
+task jacocoTestReport(type: JacocoReport, dependsOn: ['testDebugUnitTest']) {
+    reports {
+        xml.enabled true
+        xml.destination "${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+        html.destination "${buildDir}/reports/coverage"
+    }
+
+    executionData = files "${buildDir}/jacoco/testDebugUnitTest.exec"
+    sourceDirectories = files android.sourceSets.main.java.srcDirs
+    classDirectories = fileTree(dir: "${buildDir}/intermediates/classes/debug",
+            exclude: [ '**/R.class', '**/R$*.class' ])
+
+    doLast {
+        println "coveralls report has been generated to file://${buildDir}/reports/jacoco/test/jacocoTestReport.xml"
+        println "coverage report generated at file://${reports.html.destination}/index.html"
+    }
+}
