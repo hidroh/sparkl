@@ -13,8 +13,10 @@
         android:id="@android:id/progress"
         style="@style/Widget.AppCompat.ProgressBar.Horizontal"
         android:indeterminate="true"
-        android:progressDrawable="@drawable/progress"
+        android:scaleY="1.25"
         android:visibility="gone"
+        android:minHeight="@dimen/progress_height"
+        android:maxHeight="@dimen/progress_height"
         android:layout_width="match_parent"
         android:layout_height="@dimen/progress_height" />
 
