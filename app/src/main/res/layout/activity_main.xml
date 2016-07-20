@@ -1,6 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <merge
     xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -19,5 +20,19 @@
         android:maxHeight="@dimen/progress_height"
         android:layout_width="match_parent"
         android:layout_height="@dimen/progress_height" />
+
+    <TextView
+        android:id="@android:id/empty"
+        android:text="@string/empty"
+        style="@style/TextAppearance.AppCompat.Headline"
+        android:textColor="?android:attr/textColorSecondary"
+        android:breakStrategy="balanced"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:layout_gravity="center_vertical"
+        android:layout_marginLeft="@dimen/activity_horizontal_margin"
+        android:layout_marginRight="@dimen/activity_horizontal_margin"
+        tools:targetApi="m"/>
 
 </merge>

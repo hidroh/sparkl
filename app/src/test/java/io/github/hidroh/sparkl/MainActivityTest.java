@@ -57,6 +57,7 @@ public class MainActivityTest {
         assertThat(photoManager.lastQuery).isEqualTo("query");
         assertThat(photoManager.lastPage).isEqualTo(1);
         assertThat(activity).hasTitle("query");
+        assertThat(activity.findViewById(android.R.id.empty)).isNotVisible();
     }
 
     @Test
@@ -69,11 +70,13 @@ public class MainActivityTest {
         assertThat(photoManager.lastQuery).isNullOrEmpty();
         assertThat(photoManager.lastPage).isEqualTo(0);
         assertThat(activity).hasTitle(R.string.app_name);
+        assertThat(activity.findViewById(android.R.id.empty)).isVisible();
 
         controller.newIntent(createSearchIntent());
         assertThat(photoManager.lastQuery).isEqualTo("query");
         assertThat(photoManager.lastPage).isEqualTo(1);
         assertThat(activity).hasTitle("query");
+        assertThat(activity.findViewById(android.R.id.empty)).isNotVisible();
     }
 
     @Test
@@ -150,10 +153,12 @@ public class MainActivityTest {
             add(new TestPhoto("http://example.com/kitten.jpg", "Kitten"));
         }});
         assertThat(adapter.getItemCount()).isEqualTo(2); // 1 item + 1 placeholder
+        assertThat(activity.findViewById(android.R.id.empty)).isNotVisible();
         photoManager.reset();
         shadowOf(activity).recreate();
         assertThat(photoManager.lastQuery).isNullOrEmpty(); // should not make more query
         assertThat(adapter.getItemCount()).isEqualTo(2); // 1 item + 1 placeholder
+        assertThat(activity.findViewById(android.R.id.empty)).isNotVisible();
     }
 
     @NonNull

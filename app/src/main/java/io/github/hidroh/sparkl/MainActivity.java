@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     };
     private RecyclerView mRecyclerView;
     private View mProgress;
+    private View mEmpty;
     private GridAdapter mAdapter;
     private PhotoManager mPhotoManager;
 
@@ -51,6 +52,7 @@ public class MainActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
         mProgress = findViewById(android.R.id.progress);
+        mEmpty = findViewById(android.R.id.empty);
         mRecyclerView = (RecyclerView) findViewById(R.id.recycler_view);
         mRecyclerView.setHasFixedSize(true);
         mRecyclerView.setLayoutManager(new GridLayoutManager(this, GRID_COLUMNS));
@@ -66,6 +68,8 @@ public class MainActivity extends AppCompatActivity {
         } else {
             mAdapter.restoreState(savedInstanceState);
             setTitle(mAdapter.getQuery());
+            mEmpty.setVisibility(TextUtils.isEmpty(mAdapter.getQuery()) ?
+                    View.VISIBLE : View.GONE);
         }
     }
 
@@ -113,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
         if (TextUtils.equals(intent.getAction(), Intent.ACTION_SEARCH)) {
             String query = intent.getStringExtra(SearchManager.QUERY);
             if (!TextUtils.isEmpty(query)) {
+                mEmpty.setVisibility(View.GONE);
                 saveRecent(query);
                 mAdapter.setQuery(query);
                 setTitle(query);

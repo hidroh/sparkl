@@ -2,4 +2,5 @@
 <resources>
     <dimen name="grid_item_height">160dp</dimen>
     <dimen name="progress_height">8dp</dimen>
+    <dimen name="activity_horizontal_margin">16dp</dimen>
 </resources>
