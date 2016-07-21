@@ -13,6 +13,7 @@ import org.junit.runner.RunWith;
 import org.robolectric.Robolectric;
 import org.robolectric.RobolectricGradleTestRunner;
 import org.robolectric.RuntimeEnvironment;
+import org.robolectric.shadows.ShadowToast;
 import org.robolectric.util.ActivityController;
 
 import java.util.ArrayList;
@@ -92,6 +93,13 @@ public class MainActivityTest {
         photoManager.notifyStart();
         photoManager.notifyComplete(new ArrayList<Photo>());
         assertThat(adapter.getItemCount()).isEqualTo(0);
+    }
+
+    @Test
+    public void testError() {
+        photoManager.notifyStart();
+        photoManager.notifyComplete(null);
+        assertThat(ShadowToast.getTextOfLatestToast()).isEqualTo(activity.getString(R.string.error));
     }
 
     @Test

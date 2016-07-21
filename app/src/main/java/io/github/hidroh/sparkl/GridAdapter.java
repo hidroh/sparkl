@@ -2,6 +2,7 @@ package io.github.hidroh.sparkl;
 
 import android.os.Bundle;
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -26,8 +27,10 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     private static final int VIEW_TYPE_LOADING = 1;
     private final PhotoManager.Observer mObserver = new PhotoManager.Observer() {
         @Override
-        public void onComplete(@NonNull List<Photo> results) {
-            handleComplete(results);
+        public void onComplete(@Nullable List<Photo> results) {
+            if (results != null) {
+                handleComplete(results);
+            }
         }
     };
     private final PhotoManager mPhotoManager;
@@ -128,7 +131,7 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
         }
     }
 
-    private void handleComplete(List<Photo> results) {
+    private void handleComplete(@NonNull List<Photo> results) {
         mPending = false;
         if (mPage == FIRST_PAGE) { // 1st load: clear existing, append results and loading placeholder if non-empty
             mList.clear();

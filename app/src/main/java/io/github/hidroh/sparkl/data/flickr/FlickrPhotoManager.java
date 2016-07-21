@@ -68,7 +68,7 @@ public class FlickrPhotoManager implements PhotoManager {
             public void onFailure(Call<SearchResults> call, Throwable t) {
                 mCall = null;
                 for (Observer observer : mObservers) {
-                    observer.onComplete(new ArrayList<Photo>());
+                    observer.onComplete(null);
                 }
             }
         });

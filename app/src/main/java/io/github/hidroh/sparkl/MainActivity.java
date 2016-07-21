@@ -6,7 +6,7 @@ import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.provider.SearchRecentSuggestions;
-import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v4.view.MenuItemCompat;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
@@ -34,9 +34,12 @@ public class MainActivity extends AppCompatActivity {
         }
 
         @Override
-        public void onComplete(@NonNull List<Photo> results) {
+        public void onComplete(@Nullable List<Photo> results) {
             mProgress.setVisibility(View.GONE);
-            if (results.isEmpty()) {
+            if (results == null) {
+                // no retrying, just keep it simple here
+                Toast.makeText(MainActivity.this, R.string.error, Toast.LENGTH_SHORT).show();
+            } else if (results.isEmpty()) {
                 Toast.makeText(MainActivity.this, R.string.no_results, Toast.LENGTH_SHORT).show();
             }
         }

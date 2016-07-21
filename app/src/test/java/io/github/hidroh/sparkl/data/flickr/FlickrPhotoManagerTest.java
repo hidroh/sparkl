@@ -11,6 +11,7 @@ import org.mockito.MockitoAnnotations;
 import org.robolectric.RobolectricGradleTestRunner;
 
 import java.io.IOException;
+import java.util.List;
 
 import io.github.hidroh.sparkl.data.Photo;
 import io.github.hidroh.sparkl.data.PhotoManager;
@@ -23,6 +24,7 @@ import static org.mockito.Matchers.anyInt;
 import static org.mockito.Matchers.anyListOf;
 import static org.mockito.Matchers.anyString;
 import static org.mockito.Matchers.eq;
+import static org.mockito.Matchers.isNull;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.never;
 import static org.mockito.Mockito.times;
@@ -78,7 +80,8 @@ public class FlickrPhotoManagerTest {
         verify(restService).search(eq("query"), eq(1));
         verify(call).enqueue(callbackCaptor.capture());
         callbackCaptor.getValue().onFailure(call, null);
-        verify(observer).onComplete(anyListOf(Photo.class));
+        //noinspection unchecked
+        verify(observer).onComplete(isNull(List.class));
         photoManager.unsubscribe(observer);
     }
 

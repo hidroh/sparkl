@@ -1,6 +1,7 @@
 package io.github.hidroh.sparkl.data;
 
 import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 
 import java.util.List;
 
@@ -39,8 +40,8 @@ public interface PhotoManager {
 
         /**
          * Fired when a search has been completed
-         * @param results    list of matched photos
+         * @param results    list of matched photos or null if search failed
          */
-        public void onComplete(@NonNull List<Photo> results) {}
+        public void onComplete(@Nullable List<Photo> results) {}
     }
 }
