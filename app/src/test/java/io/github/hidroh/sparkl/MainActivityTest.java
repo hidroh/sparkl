@@ -161,6 +161,13 @@ public class MainActivityTest {
         assertThat(activity.findViewById(android.R.id.empty)).isNotVisible();
     }
 
+    @Test
+    public void testStateRestorationRetry() {
+        photoManager.reset();
+        shadowOf(activity).recreate();
+        assertThat(photoManager.lastQuery).isEqualTo("query"); // should requery
+    }
+
     @NonNull
     private RecyclerView.ViewHolder createBindHolder(int position) {
         RecyclerView.ViewHolder viewHolder = adapter.createViewHolder(recyclerView,

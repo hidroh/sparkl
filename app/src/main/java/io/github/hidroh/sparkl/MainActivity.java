@@ -67,9 +67,10 @@ public class MainActivity extends AppCompatActivity {
             handleIntent(getIntent());
         } else {
             mAdapter.restoreState(savedInstanceState);
-            setTitle(mAdapter.getQuery());
-            mEmpty.setVisibility(TextUtils.isEmpty(mAdapter.getQuery()) ?
-                    View.VISIBLE : View.GONE);
+            if (!TextUtils.isEmpty(mAdapter.getQuery())) {
+                setTitle(mAdapter.getQuery());
+                mEmpty.setVisibility(View.GONE);
+            }
         }
     }
 

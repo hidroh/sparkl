@@ -15,9 +15,10 @@ public class ShadowPhotoManager implements PhotoManager {
     public int lastPage;
 
     @Override
-    public void search(@NonNull String query, int page) {
+    public boolean search(@NonNull String query, int page) {
         lastQuery = query;
         lastPage = page;
+        return true;
     }
 
     @Override

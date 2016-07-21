@@ -84,12 +84,12 @@ public class FlickrPhotoManagerTest {
 
     @Test
     public void testNoConcurrentSearch() {
-        photoManager.search("query", 1);
-        photoManager.search("query", 1);
+        assertThat(photoManager.search("query", 1)).isTrue();
+        assertThat(photoManager.search("query", 1)).isFalse();
         verify(restService).search(eq("query"), eq(1));
         verify(call).enqueue(callbackCaptor.capture());
         callbackCaptor.getValue().onFailure(call, null);
-        photoManager.search("query", 1);
+        assertThat(photoManager.search("query", 1)).isTrue();
         verify(restService, times(2)).search(eq("query"), eq(1));
     }
 

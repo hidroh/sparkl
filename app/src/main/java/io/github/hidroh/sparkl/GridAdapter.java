@@ -18,6 +18,7 @@ import io.github.hidroh.sparkl.data.PhotoUtil;
 class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
 
     private static final String STATE_PAGE = "state:page";
+    private static final String STATE_PENDING = "state:pending";
     private static final String STATE_QUERY = "state:query";
     private static final String STATE_LIST = "state:list";
     private static final int FIRST_PAGE = 1;
@@ -33,6 +34,7 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     private final PhotoUtil mPhotoUtil;
     private final LayoutInflater mInflater;
     private int mPage;
+    private boolean mPending;
     private String mQuery;
     private ArrayList<Photo> mList = new ArrayList<>();
 
@@ -68,7 +70,7 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
                 holder.mImageView.setContentDescription(holder.mImageView.getResources()
                         .getString(R.string.loading));
                 holder.mImageView.setImageDrawable(null);
-                mPhotoManager.search(mQuery, ++mPage);
+                mPending = mPhotoManager.search(mQuery, ++mPage);
         }
     }
 
@@ -89,6 +91,7 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
     void setQuery(@NonNull String query) {
         mQuery = query;
         mPage = FIRST_PAGE;
+        mPending = true;
         mPhotoManager.search(query, mPage);
     }
 
@@ -106,21 +109,27 @@ class GridAdapter extends RecyclerView.Adapter<GridAdapter.ViewHolder> {
      */
     void saveState(@NonNull Bundle outState) {
         outState.putInt(STATE_PAGE, mPage);
+        outState.putBoolean(STATE_PENDING, mPending);
         outState.putString(STATE_QUERY, mQuery);
         outState.putParcelableArrayList(STATE_LIST, mList);
     }
 
     /**
-     * Restores previously saved state from bundle to this adapter
+     * Restores previously saved state from bundle to this adapter, re-requests for data if needed
      * @param savedState    previously saved state
      */
     void restoreState(@NonNull Bundle savedState) {
         mPage = savedState.getInt(STATE_PAGE);
+        mPending = savedState.getBoolean(STATE_PENDING);
         mQuery = savedState.getString(STATE_QUERY);
         mList = savedState.getParcelableArrayList(STATE_LIST);
+        if (mPending) {
+            mPhotoManager.search(getQuery(), mPage);
+        }
     }
 
     private void handleComplete(List<Photo> results) {
+        mPending = false;
         if (mPage == FIRST_PAGE) { // 1st load: clear existing, append results and loading placeholder if non-empty
             mList.clear();
             if (!results.isEmpty()) {

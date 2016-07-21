@@ -12,8 +12,9 @@ public interface PhotoManager {
      * Searches for photos that match given query
      * @param query    search query
      * @param page     page of results if paginated
+     * @return true if request is accepted, false otherwise
      */
-    void search(@NonNull String query, int page);
+    boolean search(@NonNull String query, int page);
 
     /**
      * Subscribes given observer to be notified on async events, ignored if already subscribed

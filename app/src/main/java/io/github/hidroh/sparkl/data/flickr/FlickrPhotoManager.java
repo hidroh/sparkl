@@ -45,9 +45,9 @@ public class FlickrPhotoManager implements PhotoManager {
     }
 
     @Override
-    public void search(@NonNull String query, int page) {
+    public boolean search(@NonNull String query, int page) {
         if (mCall != null) { // only allow 1 call at a time
-            return;
+            return false;
         }
         for (Observer observer : mObservers) {
             observer.onStart();
@@ -72,6 +72,7 @@ public class FlickrPhotoManager implements PhotoManager {
                 }
             }
         });
+        return true;
     }
 
     @Override
